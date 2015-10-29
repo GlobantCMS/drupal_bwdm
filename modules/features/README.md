@@ -1,0 +1,1 @@
+All custom modules and features should be placed here, the symlink will made them available in `profiles/example/modules/features` automatically. Also all the features generated in the installation will be placed here automatically.

@@ -71,9 +71,9 @@
     <symlink link="${docroot}/profiles/${drupal.profile}/${drupal.profile}.info" resource="${basedir}/${drupal.profile}.info"/>
     <symlink link="${docroot}/profiles/${drupal.profile}/${drupal.profile}.install" resource="${basedir}/${drupal.profile}.install"/>
     <symlink link="${docroot}/profiles/${drupal.profile}/${drupal.profile}.profile" resource="${basedir}/${drupal.profile}.profile"/>
-    <!--<symlink link="${docroot}/profiles/${drupal.profile}/modules/custom" resource="${basedir}/modules/custom"/>
+    <symlink link="${docroot}/profiles/${drupal.profile}/modules/custom" resource="${basedir}/modules/custom"/>
     <symlink link="${docroot}/profiles/${drupal.profile}/modules/features" resource="${basedir}/modules/features"/>
-    <symlink link="${docroot}/profiles/${drupal.profile}/themes/custom" resource="${basedir}/themes/custom"/>-->
+    <symlink link="${docroot}/profiles/${drupal.profile}/themes/custom" resource="${basedir}/themes/custom"/>
     <symlink link="${docroot}/sites/default/local.settings.php" resource="${basedir}/sites/default/local.settings.php"/>
     <symlink link="${docroot}/sites/default/settings.php" resource="${basedir}/sites/default/settings.php"/>
     <symlink link="${docroot}/sites/default/files" resource="${basedir}/sites/default/files"/>
