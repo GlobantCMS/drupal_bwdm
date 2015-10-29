@@ -1,0 +1,1 @@
+All custom themes should be placed here, this will be available in `profiles/example/themes/custom`
