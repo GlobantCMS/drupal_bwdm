@@ -1,0 +1,19 @@
+name = Example Profile
+description = Start with only a few modules enabled.
+core = 7.x
+
+; Core dependencies
+dependencies[] = block
+dependencies[] = dblog
+
+; Contrib dependencies
+dependencies[] = views
+dependencies[] = file_entity
+dependencies[] = media
+dependencies[] = fontawesome
+dependencies[] = ckeditor
+dependencies[] = chosen
+dependencies[] = media_ckeditor
+dependencies[] = media_youtube
+dependencies[] = navbar
+dependencies[] = ember_support
