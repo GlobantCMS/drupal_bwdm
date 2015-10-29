@@ -1,0 +1,12 @@
+api: 2
+core: 7.x
+
+projects:
+  drupal:
+    version: "7.41"
+    patch:
+      460408:
+        # Unpublished nodes break menu administration.
+        # https://www.drupal.org/node/460408#comment-8569901
+        url: https://www.drupal.org/files/issues/menu-access_unpublished-nodes_460408-157.patch
+        md5: dd467a71d31ded4abae6c2e675a1d91e

@@ -1,0 +1,11 @@
+# Installation options.
+#sites.subdir=default
+#site.mail=test@example.com
+#site.domain=localhost
+#account.name=admin
+#account.pass=admin
+#account.mail=test@example.com
+#timezone=America/Chicago
+
+# Drush make thread concurrency (reduce for laptops).
+#drush.concurrency=6

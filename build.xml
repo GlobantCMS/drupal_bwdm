@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Example Drupal build" basedir="." default="drush:make">
+
+  <property name="drupal.profile" value="example"/>
+
+  <property name="builddir" value="${basedir}/build"/>
+
+  <property file="build.properties"/>
+
+  <property name="account.mail"     value="test@example.com"/>
+  <property name="account.name"     value="admin"/>
+  <property name="account.pass"     value="admin"/>
+  <property name="base.url"         value="http://127.0.0.1:8080"/>
+  <property name="docroot"          value="${builddir}/docroot"/>
+  <property name="drush.concurrency" value="6"/>
+  <property name="drush.makefile"   value="build-${drupal.profile}.make.yml"/>
+  <property name="drush.bin"        value="drush"/>
+  <property name="php"              value="php"/>
+  <property name="site.mail"        value="test@example.com"/>
+  <property name="site.name"        value="Drupal Example"/>
+  <property name="site.domain"      value="localhost"/>
+  <property name="sites.subdir"     value="default"/>
+  <property name="strict"           value="true"/>
+  <property name="timezone"         value="America/Chicago"/>
+  
+  <target name="develop-install" depends="drush:make,link,drush:install,sanitize" />
+  
+  <target name="develop-update" depends="drush:make,link,sanitize,drush:updb,drush:cc" />
+
+  <target name="deploy" depends="drush:make,rsync,drush:updb,drush:cc"/>
+  
+  <target name="builddir.check">
+    <condition property="builddir.exists">
+      <available file="${builddir}" type="dir"/>
+    </condition>
+  </target>
+  
+  <target name="clean" depends="builddir.check" if="builddir.exists" description="Clean build artifacts">
+    <delete includeEmptyDirs="true" removeNotFollowedSymlinks="true">
+      <fileset dir="${builddir}" followsymlinks="false" defaultexcludes="no"/>
+    </delete>
+  </target>
+  
+  <target name="sanitize">
+    <delete file="${docroot}/CHANGELOG.txt"/>
+    <delete file="${docroot}/COPYRIGHT.txt"/>
+    <delete file="${docroot}/INSTALL.mysql.txt"/>
+    <delete file="${docroot}/INSTALL.pgsql.txt"/>
+    <delete file="${docroot}/install.php"/>
+    <delete file="${docroot}/INSTALL.sqlite.txt"/>
+    <delete file="${docroot}/INSTALL.txt"/>
+    <delete file="${docroot}/LICENSE.txt"/>
+    <delete file="${docroot}/MAINTAINERS.txt"/>
+    <delete file="${docroot}/README.txt"/>
+    <delete file="${docroot}/UPGRADE.txt"/>
+  </target>
+  
+  <target name="drush:make" depends="clean" description="Run drush make">
+    <!-- Run drush make into ./docroot -->
+    <exec executable="${drush.bin}" taskname="drush" failonerror="true">
+      <arg value="make"/>
+      <arg value="--no-patch-txt"/>
+      <arg value="--concurrency=${drush.concurrency}"/>
+      <arg value="--contrib-destination=profiles/${drupal.profile}"/>
+      <arg value="${basedir}/${drush.makefile}"/>
+      <arg value="${docroot}"/>
+    </exec>
+  </target>
+  
+  <target name="link" description="Link all required base files">
+    <symlink link="${docroot}/profiles/${drupal.profile}/${drupal.profile}.info" resource="${basedir}/${drupal.profile}.info"/>
+    <symlink link="${docroot}/profiles/${drupal.profile}/${drupal.profile}.install" resource="${basedir}/${drupal.profile}.install"/>
+    <symlink link="${docroot}/profiles/${drupal.profile}/${drupal.profile}.profile" resource="${basedir}/${drupal.profile}.profile"/>
+    <!--<symlink link="${docroot}/profiles/${drupal.profile}/modules/custom" resource="${basedir}/modules/custom"/>
+    <symlink link="${docroot}/profiles/${drupal.profile}/modules/features" resource="${basedir}/modules/features"/>
+    <symlink link="${docroot}/profiles/${drupal.profile}/themes/custom" resource="${basedir}/themes/custom"/>-->
+    <symlink link="${docroot}/sites/default/local.settings.php" resource="${basedir}/sites/default/local.settings.php"/>
+    <symlink link="${docroot}/sites/default/settings.php" resource="${basedir}/sites/default/settings.php"/>
+    <symlink link="${docroot}/sites/default/files" resource="${basedir}/sites/default/files"/>
+  </target>
+  
+  <target name="rsync" description="Rsync into build/docroot">
+    <!-- Rsync the profile -->
+    <exec executable="rsync" taskname="rsync">
+      <arg value="-ac"/>
+      <arg value="${basedir}/profiles/"/>
+      <arg value="${docroot}/profiles/"/>
+      <arg line="--exclude '.gitignore'"/>
+    </exec>
+    <!-- Rsync custom modules -->
+    <exec executable="rsync" taskname="rsync">
+      <arg value="-ac"/>
+      <arg value="${basedir}/sites/"/>
+      <arg value="${docroot}/sites/"/>
+    </exec>
+  </target>
+  
+  <target name="drush:updb" description="Drush update DB via hook updates">
+    <exec executable="${drush.bin}" dir="${docroot}" taskname="drush">
+      <arg line="updatedb -y"/>
+    </exec>
+  </target>
+
+  <target name="drush:cc" description="Drush clear all caches">
+    <exec executable="${drush.bin}" dir="${docroot}" taskname="drush">
+      <arg line="cc all"/>
+    </exec>
+  </target>
+
+  <target name="drush:fra" description="Reverts from code to DB all Features">
+    <exec executable="${drush.bin}" dir="${docroot}" taskname="drush">
+      <arg line="fra -y"/>
+    </exec>
+  </target>
+  
+  <target name="drush:install" description="Run drush site-install">
+    <exec executable="${drush.bin}" dir="${docroot}" taskname="drush" failonerror="true">
+      <arg value="site-install"/>
+      <arg value="-y"/>
+      <arg value="-v"/>
+      <arg value="--site-name=${site.name}"/>
+      <arg value="--site-mail=${site.mail}"/>
+      <arg value="--account-name=${account.name}"/>
+      <arg value="--account-pass=${account.pass}"/>
+      <arg value="--account-mail=${account.mail}"/>
+      <arg value="--sites-subdir=${sites.subdir}"/>
+      <arg value="${drupal.profile}"/>
+      <arg value="install_configure_form.update_status_module='array(FALSE,FALSE)'"/>
+      <arg value="install_configure_form.date_default_timezone=${timezone}"/>
+    </exec>
+    <antcall target="change-perms"/>
+  </target>
+  
+  <target name="change-perms">
+    <chmod file="${docroot}/sites/${sites.subdir}" perm="u+w" type="dir"/>
+  </target>
+  
+</project>

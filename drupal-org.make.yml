@@ -1,0 +1,223 @@
+core: 7.x
+api: 2
+defaults:
+  projects:
+    subdir: contrib
+
+projects:
+  bean:
+    version: "1.9"
+    patch:
+      2577095:
+        # Moved block integration into submodule.
+        # https://www.drupal.org/node/2577095
+        url: https://www.drupal.org/files/issues/bean-bean_block_module-2577095-7_0.patch
+        md5: ad985a58e5804104db13e49a82b426ea
+
+  ckeditor:
+    download:
+      type: git
+      revision: 292de93
+      branch: 7.x-1.x
+   
+  chosen: "2.0-beta4"
+
+  ctools:
+    version: "1.9"
+    patch:
+      2475417:
+        # Disable scrolling behind modal.
+        # https://www.drupal.org/node/2475417
+        url: https://drupal.org/files/issues/fix-background-scroll-2475417-5.patch
+        md5: 2fb30d831f65bd18a8ec87f383dfc01e
+
+  date:
+    version: "2.9"
+
+  diff: "3.2"
+
+  ember_support:
+    download:
+      type: git
+      revision: f1d04cb
+      branch: 7.x-1.x
+
+  entity:
+    download:
+      type: git
+      revision: 4d76c5c
+      branch: 7.x-1.x
+      patch:
+        1604898:
+          # Bad use of tokens.
+          url: https://www.drupal.org/files/ambiguous_type_token-1604898-3.patch
+          md5: f1d2233da07ac2c069bf2a88b3df73be
+
+  entity_embed: "2.0-alpha2"
+
+  entity_view_mode: "1.0-rc1"
+
+  entitycache: "1.2"
+
+  entityreference: "1.1"
+
+  features:
+    version: "2.7"
+    patch:
+      2145453:
+        # Features with languages don't revert properly.
+        # https://www.drupal.org/node/2145453#comment-10192374
+        url: https://www.drupal.org/files/issues/features-2145453-4.patch
+        md5: 87d53cb7d10c2c693e1df8e74a1a6aad
+
+  fences: "1.2"
+
+  file_entity: "2.0-beta2"
+
+  fontawesome: "2.4"
+
+  globalredirect: "1.5"
+
+  google_analytics: "2.1"
+
+  i18n: "1.13"
+
+  field_group: "1.4"
+
+  jquery_update: "2.7"
+
+  l10n_update: "2.0"
+
+  libraries: "2.2"
+
+  link: "1.3"
+
+  media:
+    download:
+      type: git
+      revision: cba92a0
+      branch: 7.x-2.x
+
+  media_ckeditor: "2.0-alpha1"
+
+  media_youtube: "3.0"
+
+  menu_attributes: "1.0-rc3"
+
+  module_filter: "2.0"
+
+  navbar:
+    version: "1.x-dev"
+    patch:
+      1954912:
+        # Menu icons for contrib modules.
+        # https://drupal.org/node/1954912
+        url: https://drupal.org/files/issues/navbar-contrib-icons-1954912-20.patch
+        md5: 7a9dd26477847278789301221154d412
+
+  paragraphs:
+    version: "1.0-rc4"
+    patch:
+      2555635:
+        # Translate embedded field title.
+        # https://www.drupal.org/node/2555635#comment-10247347
+        url: https://www.drupal.org/files/issues/paragraphs-2555635-2.patch
+        md5: 4bab161bbdf482fca36f1b1c36dd0f9a
+      2558517:
+        # Validate required paragraph fields.
+        # https://www.drupal.org/node/2558517#comment-10428949
+        url: https://www.drupal.org/files/issues/paragraphs-2558517-8.patch
+        md5: 7a777a7f654945a7eb0f26b42a4dbcb0
+
+  stage_file_proxy: "1.7"
+
+  strongarm:
+    version: "2.0"
+    patch:
+      1850618:
+        # language_default variable is always overridden.
+        # https://drupal.org/node/1850618
+        url: https://www.drupal.org/files/issues/variable-1850618-13.patch
+        md5: 90ad3a4c7dc59faa30e818da5ccbc8b0
+
+  token: "1.6"
+
+  transliteration: "3.2"
+
+  variable: "2.5"
+
+  views:
+    version: "3.11"
+    patch:
+      1685144:
+        # Call to a member function init_display() on a non-object...
+        # https://drupal.org/node/1685144
+        url: https://drupal.org/files/views-1685144-localization-bug_1.patch
+        md5: a7655a0f4d6ba2bdd9d92b522f552732
+      1771140:
+        # user_access() php notice due to admin_views.
+        # https://drupal.org/node/1771140
+        url: https://www.drupal.org/files/issues/views_access_arguments-1771140-17.patch
+        md5: 46934672f0268dde283cf63138a3d497
+
+  tb_megamenu:
+    version: "1.x-dev"
+    patch:
+      2063975:
+        # Create own style.
+        # https://www.drupal.org/node/2063975#comment-10378311
+        url: https://www.drupal.org/files/issues/tb_megamenu-2063975-13.patch
+        md5: 140e80aeafb28faa929335c2fdd41d5a
+
+  xmlsitemap: "2.2"
+
+  # Development modules
+  devel:
+    subdir: development
+    version: "1.5"
+
+  # Themes
+  ember:
+    version: "2.0-alpha4"
+    type: theme
+
+  zurb_foundation:
+    version: "5.0-rc6"
+    type: theme
+
+libraries:
+  chosen:
+    download:
+      type: file
+      url: https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip
+      md5: dda575a545dc97924bebfa2a070bf993
+
+  ckeditor:
+    download:
+      type: file
+      url: http://download.cksource.com/CKEditor%20for%20Drupal/edit/ckeditor_4.4.3_edit.zip
+      md5: 8bb3912a3c4913b2debaad7a93b8c649
+    
+  fontawesome:
+    download:
+      type: file
+      url: https://github.com/FortAwesome/Font-Awesome/archive/v4.2.0.zip
+      md5: ddbed5e6e546e171a37301902090dd8a
+
+  underscore:
+    download:
+      type: file
+      url: https://github.com/jashkenas/underscore/archive/1.5.2.zip
+      md5: 9e8da2c1995cebc8ba1032a60c5c2e95
+ 
+  backbone:
+    download:
+      type: file
+      url: https://github.com/jashkenas/backbone/archive/1.1.0.zip
+      md5: 9494ef6b300ef74f4b071d9ec0ce5105
+
+  modernizr:
+    download:
+      type: file
+      url: https://github.com/Modernizr/Modernizr/archive/v2.7.1.zip
+      md5: dd40199f0eb89040ae5d91e057006619
